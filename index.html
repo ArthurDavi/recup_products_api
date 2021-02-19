@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Our superheroes</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Faster+One"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header></header>
+
+    <section></section>
+
+    <script>
+      const header = document.querySelector("header");
+      const section = document.querySelector("section");
+
+      //Armazena a URL do Json que queremos recuperar
+      var requestURL =
+        "https://www.shoppingdoconfeiteiro.com.br/web_api/products.json";
+      //Criar um solicitação de instãncia através do construtor "New"
+      var request = new XMLHttpRequest();
+      //Abre uma nova solicitação e como parametro usa o get para retorna dados simples e a url que fica o json
+      request.open("GET", requestURL);
+      //Usa o responseType para que o XHR saiba que o servidor retornará o JSON e que isso deve ser convertido nos bastidores em um objeto JavaScript
+      request.responseType = "json";
+      //E em seguida enviar uma solicitação com o método send
+      request.send();
+      request.onload = function() {
+        //Aqui esta armazenando a resposta do nosso pedido em uma váriavel através do metodo response.
+        //essa variável agora contém o objeto JavaScript com base no JSON
+        var products = request.response;
+        console.log(products);
+        //Chama a função para executar os comandos
+        showProducts(products);
+
+        //Parametro é o objeto javascript com base no json
+        function showProducts(jsonObj) {
+          var objetsProducts = jsonObj["Products"];
+          
+          for(i=0,len=objetsProducts.length;i<len;i++){
+            var myArticle = document.createElement('article');
+            var nameProduct = document.createElement('h1');
+            var qntProduct = document.createElement('p');
+            //var descriProduct = document.createElement('p');
+            nameProduct.textContent = objetsProducts[i].Product.name;
+            qntProduct.textContent = 'Quantidade: ' +  
+            //Insere a variavel dentro da tag 
+            myArticle.appendChild(nameProduct);
+            //Insere a váriavel dentro da tag section
+            section.appendChild(myArticle);
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
